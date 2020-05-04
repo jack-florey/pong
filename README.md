@@ -1,4 +1,4 @@
-Round-table beruit app based on the [Flask-Base](https://github.com/hack4impact/flask-base/) template kindly made available by hack4impact.
+Round-table beirut app based on the [Flask-Base](https://github.com/hack4impact/flask-base/) template kindly made available by hack4impact.
 
 ## Demos
 
