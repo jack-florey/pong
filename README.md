@@ -7,7 +7,8 @@ Gameplay:
 ![gameplay](readme_media/gameplay.png "gameplay")
 
 
-Response Mobile Design:
+Response Mobile Design::
+
 ![mobilescreen](readme_media/mobile_screen.png "mobile")
 
 
