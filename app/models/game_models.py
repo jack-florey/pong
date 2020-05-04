@@ -38,6 +38,11 @@ class Game(db.Model):
         self.previous_game_object = self.game_object
         self.game_object = fresh
 
+    def is_setup(self):
+        if game_object:
+            return False
+        return game_object.is_setup()
+
 class Player(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         name = db.Column(db.String(64))

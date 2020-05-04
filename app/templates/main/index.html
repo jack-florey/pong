@@ -8,20 +8,15 @@
        {% else %}
 
        <div class="ui relaxed divided list">
-	       {% for g in games if g.game_object.is_playing() %}
+	       {% for g in games if g.game_object and g.game_object.is_playing() %}
 	       <div class="item">
-		       <i class="large github middle aligned icon"></i>
+		       <i class="large beer middle aligned icon"></i>
 		       <div class="content">
 			       <a class="header" href="games/{{g.id}}/play">{{g.name}}</a>
 			       <div class="description">Started {{moment(g.time_started).fromNow()}}</div>
 		       </div>
 	       </div>
 	       {% endfor %}
-
-<!--       {% for g in games %}
-       <div><p>{{g.name}} started:{{g.time_started}} {{ moment(g.time_started).fromNow() }}</p></div>
-       {% endfor %}-->
-
        </div>
 
        {% endif %}
@@ -31,6 +26,21 @@
 	       <div><p>There are no games live right now!</p></div>
        {% endif %}
        {% if can_create %}
+
+
+	       <div class="ui relaxed divided list">
+		       {% for g in games if not g.game_object or (g.game_object and g.game_object.is_in_setup())%}
+		       <div class="item">
+			       <i class="large beer middle aligned icon"></i>
+			       <div class="content">
+				       <a class="header" href="games/{{g.id}}/setup">{{g.name}}</a>
+				       <div class="description">Finish Setup</div>
+
+			       </div>
+		       </div>
+		       {% endfor %}
+	       </div>
+
 	       <a class="ui basic compact button" href="{{ url_for('games.create_game') }}">
 		       <i class="caret right icon"></i>
 		       Create new Game
