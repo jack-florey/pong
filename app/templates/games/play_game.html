@@ -1,0 +1,77 @@
+{% extends 'layouts/base.html' %}
+{% import 'macros/form_macros.html' as f %}
+
+{% block content %}
+<div class="ui stackable centered grid container">
+	<div class="sixteen wide column">
+		<a class="ui basic compact button" href="{{ url_for('main.index') }}">
+			<i class="caret left icon"></i>
+			Back Home
+		</a>
+		<h2 class="ui header">
+			I don't practice Santaria
+		</h2>
+
+		{% set flashes = {
+		'error':   get_flashed_messages(category_filter=['form-error']),
+		'warning': get_flashed_messages(category_filter=['form-check-email']),
+		'info':    get_flashed_messages(category_filter=['form-info']),
+		'success': get_flashed_messages(category_filter=['form-success'])
+		} %}
+		<div class="ui six cards">
+
+		{% for player_id in game.board %}
+
+		<div class="ui card">
+			<div class="ui image">
+				<img src="/static/images/games/cups_{{game.players[player_id].cups}}.png">
+			</div>
+			<div class="content">
+				<a class="header">{{game.players[player_id].name}}</a>
+				<div class="meta">
+					<span>Target for <b>{{game.get_previous_player(player_id).name}}</b></span>
+				</div>
+			</div>
+			<div class="ui bottom attached button" onclick="hit_cup('{{player_id}}')">
+				<i class="crosshairs icon"></i>
+				Cup Hit
+			</div>
+		</div>
+
+		{% endfor %}
+		</div>
+
+
+		<h3 class="ui header">
+			Graveyard
+		</h3>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	function hit_cup(player_id){
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader("X-CSRFToken", '{{csrf_token()}}');
+				}
+			}
+		});
+		$.post('actions/cup_hit', {
+			target_id: player_id,
+		}).done(function(response) {
+	                location.reload(); 
+		}).fail(function() {
+	                location.reload(); 
+		});
+
+	}
+</script>
+
+{% endblock %}
+
+
+
+
+

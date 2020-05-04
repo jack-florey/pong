@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+{{ moment.include_moment() }}
+
+{% block content %}
+    <div class="ui text container">
+      <h2>Current Games</h2>
+       {% for g in games %}
+       <div><p>{{g.name}} started:{{g.time_started}} {{ moment(g.time_started).fromNow() }}</p></div>
+       {% endfor %}
+       {% if g.size == 0 %}
+	       <div><p>There are no games live right now!</p></div>
+       {% endif %}
+       {% if can_create %}
+	       <a class="ui basic compact button" href="{{ url_for('games.create_game') }}">
+		       <i class="caret right icon"></i>
+		       Create new Game
+	       </a>
+       {% endif %}
+    </div>
+{% endblock %}

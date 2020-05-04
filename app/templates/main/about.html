@@ -1,0 +1,21 @@
+{% import 'macros/page_macros.html' as page %}
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <div class="ui text container">
+        <h1>About</h1>
+        {{ page.render_inline_editor(editable_html_obj, current_user) }}
+    </div>
+
+    <h2>Attributions</h2>
+    <p>
+    Web app based on the flask-base template provided by hack4impact
+
+    </p>
+
+    <p>
+    plastic cup by Mike Barbetta from the Noun Project
+    </p>
+
+    <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+{% endblock %}
