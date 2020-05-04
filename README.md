@@ -1,5 +1,16 @@
 Round-table beruit app based on the [Flask-Base](https://github.com/hack4impact/flask-base/) template kindly made available by hack4impact.
 
+## Demos
+
+Gameplay:
+
+![gameplay](readme_media/gameplay.png "gameplay")
+
+
+Response Mobile Design:
+![mobilescreen](readme_media/mobile_screen.png "mobile")
+
+
 ## Setting up
 
 ##### Initialize a virtual environment

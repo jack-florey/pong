@@ -50,7 +50,6 @@ def play_game(game_id):
     game = Game.query.filter_by(id=game_id).first()
 
     gs = game.game_object
-    app.logger.error(str(gs))
 
     return render_template('games/play_game.html', game=gs)
 
@@ -66,7 +65,6 @@ def cup_hit(game_id):
 
     db.session.add(game)
     db.session.commit()
-    app.logger.error(game.__dict__)
 
     return "hit"
 
