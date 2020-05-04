@@ -52,7 +52,7 @@ AUTORUN_OFF = "off"
 MODE_SETUP = "setup"
 MODE_PLAYING = "playing"
 MODE_COMPLETE = "complete"
-MODE_RECORDED = "recorded"
+MODE_ARCHIVED = "archived"
 
 
 class GameState(object):
@@ -142,7 +142,13 @@ class GameState(object):
         return self.mode == MODE_PLAYING
 
     def is_complete(self):
-        return self.mode == MODE_COMPLETE
+        return self.mode == MODE_COMPLETE or self.mode == MODE_ARCHIVED
+
+    def is_archived(self):
+        return self.mode == MODE_ARCHIVED
+
+    def is_in_setup(self):
+        return self.mode == MODE_SETUP
 
     def index(self, uuid):
         try:

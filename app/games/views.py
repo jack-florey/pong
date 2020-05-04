@@ -78,6 +78,8 @@ def setup_game(game_id):
     game = Game.query.filter_by(id=game_id).first()
     if game is None:
         abort(404)
+    if game.game_object and not game.game_object.is_in_setup():
+        return redirect(url_for('games.play_game', game_id=game.id))
     form = SetupGameForm(obj = game)
     if form.validate_on_submit():
         game.name = form.name.data

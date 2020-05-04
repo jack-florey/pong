@@ -22,6 +22,19 @@
 		This game is over! {{game.players[game.board[0]].name}} was victorious with <b>{{game.get_kills(game.board[0])}}</b> kills. Qapla!
 		</p>
 
+		{% if current_user.is_admin() and not game.is_archived() %}
+
+		<p>
+		<b>Administrator!</b> This game has not been archived. Click below to record it for posterity.
+		<div class="ui right labeled icon button" onclick="archive('{{g.id}}')">
+			<i class="right arrow icon"></i>
+			Archive Results
+		</div>
+		</p>
+
+		{% endif %}
+
+
 
 		{% endif %}
 
@@ -35,7 +48,7 @@
 		'info':    get_flashed_messages(category_filter=['form-info']),
 		'success': get_flashed_messages(category_filter=['form-success'])
 		} %}
-		<div class="ui six cards">
+		<div class="ui six doubling cards">
 
 		{% for player_id in game.board %}
 
@@ -46,7 +59,11 @@
 			<div class="content">
 				<a class="header">{{game.players[player_id].name}}</a>
 				<div class="meta">
+				{% if game.is_playing() %}
 					<span>Target for <b>{{game.get_previous_player(player_id).name}}</b></span>
+				{% else %}
+					<span><b>Champion</b></span>
+   			        {% endif %}
 				</div>
 			</div>
 			{% if game.is_playing() %}
@@ -64,7 +81,7 @@
 		<h3 class="ui header">
 			Graveyard
 		</h3>
-		<div class="ui six cards">
+		<div class="ui six doubling cards">
 		{% for player_id in game.eliminated %}
 
 		<div class="ui card">
