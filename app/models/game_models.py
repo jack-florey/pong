@@ -51,6 +51,9 @@ AUTORUN_OFF = "off"
 
 MODE_SETUP = "setup"
 MODE_PLAYING = "playing"
+MODE_COMPLETE = "complete"
+MODE_RECORDED = "recorded"
+
 
 class GameState(object):
     def __init__(self):
@@ -60,6 +63,8 @@ class GameState(object):
 
         self.current_index = None
         self.mode = MODE_SETUP
+
+        self.date_finished = None
 
         self.num_cups = 6
 
@@ -126,6 +131,19 @@ class GameState(object):
 
         killer.add_cup()
 
+        if len(self.board) == 1:
+            self.trigger_end_game()
+
+    def trigger_end_game(self):
+        self.finished_time = datetime.datetime.utcnow
+        self.mode = MODE_COMPLETE
+
+    def is_playing(self):
+        return self.mode == MODE_PLAYING
+
+    def is_complete(self):
+        return self.mode == MODE_COMPLETE
+
     def index(self, uuid):
         try:
             return self.board.index(uuid)
@@ -134,6 +152,10 @@ class GameState(object):
 
     def get_previous_player(self, uuid):
         return self.players[self.board[self.index(uuid) - 1 % len(self.board)]]
+
+
+    def get_kills(self, player_id):
+        return sum(1 for p in self.players.values() if p.knocked_out_by == player_id)
     
     def __str__(self):
         joined =", ".join([str(self.players[j]) for j in self.board])

@@ -8,6 +8,23 @@
 			<i class="caret left icon"></i>
 			Back Home
 		</a>
+
+		{% if game.is_complete() %}
+
+		<h2 class="ui header">
+			<i class="stopwatch icon"></i>
+			<div class="content">
+				Game Complete
+			</div>
+		</h2>
+
+		<p>
+		This game is over! {{game.players[game.board[0]].name}} was victorious with <b>{{game.get_kills(game.board[0])}}</b> kills. Qapla!
+		</p>
+
+
+		{% endif %}
+
 		<h2 class="ui header">
 			I don't practice Santaria
 		</h2>
@@ -32,10 +49,12 @@
 					<span>Target for <b>{{game.get_previous_player(player_id).name}}</b></span>
 				</div>
 			</div>
+			{% if game.is_playing() %}
 			<div class="ui bottom attached button" onclick="hit_cup('{{player_id}}')">
 				<i class="crosshairs icon"></i>
 				Cup Hit
 			</div>
+			{% endif %}
 		</div>
 
 		{% endfor %}
@@ -45,6 +64,23 @@
 		<h3 class="ui header">
 			Graveyard
 		</h3>
+		<div class="ui six cards">
+		{% for player_id in game.eliminated %}
+
+		<div class="ui card">
+			<div class="ui image">
+				<img src="/static/images/games/gravestone.png">
+			</div>
+			<div class="content">
+				<a class="header">{{game.players[player_id].name}}</a>
+				<div class="meta">
+					<span>Killed by <b>{{game.players[game.players[player_id].knocked_out_by].name}}</b></span>
+				</div>
+			</div>
+		</div>
+
+		{% endfor %}
+		</div>
 
 	</div>
 </div>
