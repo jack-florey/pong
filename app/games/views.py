@@ -35,7 +35,7 @@ def index():
 @admin_required
 def create_game():
     #Create the model
-    g = Game(name="%s" % current_user.email)
+    g = Game(name="%s's Game" % current_user.first_name)
 
     db.session.add(g)
     db.session.commit()
