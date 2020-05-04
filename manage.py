@@ -9,7 +9,7 @@ from redis import Redis
 from rq import Connection, Queue, Worker
 
 from app import create_app, db
-from app.models import Role, User, Player
+from app.models import Role, User, Player, Game
 from config import Config
 
 import csv
@@ -51,6 +51,9 @@ def bootstrap():
             db.session.add(np)
             db.session.commit()
 
+@manager.command
+def wipe_games():
+    Game.query.delete()
 
 
 @manager.command

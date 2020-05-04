@@ -1,12 +1,32 @@
 {% extends 'layouts/base.html' %}
-{{ moment.include_moment() }}
 
 {% block content %}
     <div class="ui text container">
       <h2>Current Games</h2>
-       {% for g in games %}
+       {% if g.size == 0 %}
+	       <div><p>There are no games live right now!</p></div>
+       {% else %}
+
+       <div class="ui relaxed divided list">
+	       {% for g in games if g.game_object.is_playing() %}
+	       <div class="item">
+		       <i class="large github middle aligned icon"></i>
+		       <div class="content">
+			       <a class="header" href="games/{{g.id}}/play">{{g.name}}</a>
+			       <div class="description">Started {{moment(g.time_started).fromNow()}}</div>
+		       </div>
+	       </div>
+	       {% endfor %}
+
+<!--       {% for g in games %}
        <div><p>{{g.name}} started:{{g.time_started}} {{ moment(g.time_started).fromNow() }}</p></div>
-       {% endfor %}
+       {% endfor %}-->
+
+       </div>
+
+       {% endif %}
+
+
        {% if g.size == 0 %}
 	       <div><p>There are no games live right now!</p></div>
        {% endif %}

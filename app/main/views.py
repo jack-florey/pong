@@ -5,6 +5,7 @@ from flask_login import current_user
 from app.models import EditableHTML, Game, Permission
 
 main = Blueprint('main', __name__)
+from flask_moment import Moment
 
 
 @main.route('/')
