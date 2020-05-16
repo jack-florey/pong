@@ -68,6 +68,21 @@ def cup_hit(game_id):
 
     return "hit"
 
+@games.route('/<int:game_id>/actions/cycle_rack', methods=['POST'])
+def cycle_rack(game_id):
+    game = Game.query.filter_by(id=game_id).first()
+
+    gs = game.game_object
+
+    gs.cycle_rack(request.form['target_id'])
+
+    game.update_game_state(gs)
+
+    db.session.add(game)
+    db.session.commit()
+
+    return "cycled"
+
 
 @games.route('/<int:game_id>/setup', methods=['GET', 'POST'])
 @login_required

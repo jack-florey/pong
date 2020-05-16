@@ -174,6 +174,10 @@ class GameState(object):
                ", ".join([str(self.players[j]) for j in self.board]),
                ", ".join([str(self.players[j]) for j in self.eliminated]))
 
+    def cycle_rack(self, player_id):
+        p = self.players[player_id]
+        p.cycle_rack()
+
 
 STATUS_ELIMINATED = "eliminated"
 STATUS_ALIVE = "alive"
@@ -189,9 +193,13 @@ class PlayerState(object):
         self.cups = num_cups
         self.status = STATUS_ALIVE
         self.knocked_out_by = None
+        self.fifth_cup_missing = 1
 
     def alive(self): 
         return self.cups > 0
+
+    def cycle_rack(self):
+        self.fifth_cup_missing = ((self.missing_fifth()) % 6) + 1
 
     def hit(self):
         if self.cups > 0:
@@ -208,3 +216,16 @@ class PlayerState(object):
 
     def __repr__(self):
         return "Player %s{%s}" % (self.name, self.id)
+
+    def missing_fifth(self):
+        if hasattr(self, 'fifth_cup_missing'):
+            return self.fifth_cup_missing
+        return 1
+
+
+    def rack_image(self):
+        if self.cups != 5:
+            return self.cups
+
+        return "%d_%d" % (self.cups, self.missing_fifth())
+

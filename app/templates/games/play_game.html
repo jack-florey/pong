@@ -58,7 +58,7 @@
 
 		<div class="ui card">
 			<div class="ui image">
-				<img src="/static/images/games/cups_{{game.players[player_id].cups}}.png">
+				<img src="/static/images/games/cups_{{game.players[player_id].rack_image()}}.png">
 			</div>
 			<div class="content">
 				<a class="header">{{game.players[player_id].name}}</a>
@@ -74,6 +74,12 @@
 			<div class="ui bottom attached button" onclick="hit_cup('{{player_id}}')">
 				<i class="crosshairs icon"></i>
 				Cup Hit
+			</div>
+			{% endif %}
+			{% if game.players[player_id].cups == 5 %}
+			<div class="ui bottom attached button" onclick="cycle_rack('{{player_id}}')">
+				<i class="recycle icon"></i>
+				Rotate Rack
 			</div>
 			{% endif %}
 		</div>
@@ -123,6 +129,22 @@
 	                location.reload(); 
 		});
 
+	}
+	function cycle_rack(player_id){
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader("X-CSRFToken", '{{csrf_token()}}');
+				}
+			}
+		});
+		$.post('actions/cycle_rack', {
+			target_id: player_id,
+		}).done(function(response) {
+	                location.reload(); 
+		}).fail(function() {
+	                location.reload(); 
+		});
 	}
 </script>
 
